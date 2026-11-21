@@ -1,0 +1,9 @@
+{
+  "appId": "com.company.branchmanager",
+  "appName": "منظومة إدارة الشركات والفروع",
+  "webDir": ".",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}
