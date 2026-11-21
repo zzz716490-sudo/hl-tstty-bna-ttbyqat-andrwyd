@@ -39,6 +39,10 @@ if (fs.existsSync(assetsDir)) {
     .replace('./dist/assets/', './assets/');
   fs.writeFileSync(path.join(distDir, 'index.html'), distHtmlContent);
 
+  // Copy dist/assets to root assets for maximum compatibility
+  const rootAssetsDir = path.resolve(import.meta.dirname, '../assets');
+  fs.cpSync(assetsDir, rootAssetsDir, { recursive: true });
+
   console.log(`Successfully generated index.html (root) and dist/index.html linking to ${jsFile}`);
 } else {
   console.error('Assets directory not found');
