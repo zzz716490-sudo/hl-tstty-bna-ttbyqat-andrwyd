@@ -1,0 +1,45 @@
+import fs from 'fs';
+import path from 'path';
+
+const distDir = path.resolve(import.meta.dirname, '../dist');
+const assetsDir = path.join(distDir, 'assets');
+
+if (fs.existsSync(assetsDir)) {
+  const files = fs.readdirSync(assetsDir);
+  const jsFile = files.find(f => f.endsWith('.js'));
+  const cssFile = files.find(f => f.endsWith('.css'));
+
+  const htmlContent = `<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230284c7'><path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#0284c7" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>منظومة إدارة الشركات والفروع والأصول</title>
+    <!-- Google Fonts for Arabic UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="./dist/assets/${jsFile}"></script>
+    <link rel="stylesheet" crossorigin href="./dist/assets/${cssFile}">
+  </head>
+  <body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white pb-20 md:pb-0">
+    <div id="root"></div>
+  </body>
+</html>
+`;
+
+  fs.writeFileSync(path.resolve(import.meta.dirname, '../index.html'), htmlContent);
+  // Also write dist/index.html for direct dist/ access
+  const distHtmlContent = htmlContent
+    .replace('./dist/assets/', './assets/')
+    .replace('./dist/assets/', './assets/');
+  fs.writeFileSync(path.join(distDir, 'index.html'), distHtmlContent);
+
+  console.log(`Successfully generated index.html (root) and dist/index.html linking to ${jsFile}`);
+} else {
+  console.error('Assets directory not found');
+}
