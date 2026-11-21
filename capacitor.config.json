@@ -1,6 +1,6 @@
 {
   "appId": "com.company.branchmanager",
-  "appName": "منظومة إدارة الشركات والفروع",
+  "appName": "العز لإدارة بيانات الشركات وفروعها",
   "webDir": ".",
   "bundledWebRuntime": false,
   "server": {
